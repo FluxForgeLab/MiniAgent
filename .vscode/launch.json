@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Stage1: trace run_demo",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/00-reading-notes/stage1-smolagents/run_demo.py",
+      "cwd": "${workspaceFolder}/00-reading-notes/stage1-smolagents",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
