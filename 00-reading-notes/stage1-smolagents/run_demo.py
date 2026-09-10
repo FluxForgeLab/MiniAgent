@@ -37,6 +37,6 @@ agent = ToolCallingAgent(
 )
 
 if __name__  == "__main__":
-    # result = agent.run("北京现在多少摄氏度？再把它换成华氏度。")
-    result = agent.run("写一首五言绝句，不要调用任何工具。")
+    result = agent.run("北京现在多少摄氏度？再把它换成华氏度。")
+    # result = agent.run("写一首五言绝句，不要调用任何工具。")
     print("RESULT:", result)
