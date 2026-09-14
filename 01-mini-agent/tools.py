@@ -1,11 +1,19 @@
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any, Callable, Protocol
 
 
 @dataclass
 class ToolResult:
     ok: bool
     observation: str
+
+
+class ToolProvider(Protocol):
+    def schema(self) -> list[dict[str, Any]]:
+        ...
+
+    def execute(self, name: str, arguments: dict[str, Any]) -> ToolResult:
+        ...
 
 
 @dataclass

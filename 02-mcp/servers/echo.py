@@ -16,6 +16,19 @@ ADD_TOOL = {
     }
 }
 
+MULTIPLY_TOOL = {
+    "name": "multiply",
+    "description": "两个数相乘",
+    "inputSchema": {
+        "type": "object",
+        "properties": {
+            "a": {"type": "number", "description": "乘数"},
+            "b": {"type": "number", "description": "乘数"},
+        },
+        "required": ["a", "b"],
+    },
+}
+
 def ok_text(req_id, text):
     return {
         "jsonrpc": "2.0",
@@ -33,7 +46,7 @@ def ok_tools(req_id):
         "id": req_id,
         "result": {
             "resultType": "complete",
-            "tools": [ADD_TOOL]
+            "tools": [ADD_TOOL, MULTIPLY_TOOL]
         }
     }
 
@@ -83,11 +96,11 @@ def handle(req):
     name = params.get("name")
     args = params.get("arguments") or {}
 
-    if name != "add":
-        return rpc_error(req_id, -32603, f"Unknown tool: {name}")
-
-    total = args["a"] + args["b"]
-    return ok_text(req_id, str(total))
+    if name == "add":
+        return ok_text(req_id, str(args["a"] + args["b"]))
+    if name == "multiply":
+        return ok_text(req_id, str(args["a"] * args["b"]))
+    return rpc_error(req_id, -32603, f"Unknown tool: {name}")
 
 def main():
     for line in sys.stdin:

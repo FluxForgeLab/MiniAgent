@@ -3,13 +3,13 @@ from dataclasses import dataclass
 from context import build
 from memory import Memory, Step
 from model import Model, ModelOutput
-from tools import ToolRegistry, ToolResult
+from tools import ToolProvider, ToolResult
 
 
 @dataclass
 class Agent:
     model: Model
-    registry: ToolRegistry
+    registry: ToolProvider
     max_steps: int = 6
 
     def run(self, task: str) -> str:

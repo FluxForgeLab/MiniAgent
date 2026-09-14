@@ -1,0 +1,6 @@
+{
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/01-mini-agent",
+    "${workspaceFolder}/02-mcp"
+  ]
+}

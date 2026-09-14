@@ -10,6 +10,16 @@
       "console": "integratedTerminal",
       "justMyCode": false,
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "name": "Stage3: mcp main",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/02-mcp/main.py",
+      "cwd": "${workspaceFolder}/02-mcp",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }
