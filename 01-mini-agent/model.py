@@ -94,11 +94,7 @@ def to_openai_tools(schema: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "function": {
                     "name": item["name"],
                     "description": item["description"],
-                    "parameters": {
-                        "type": "object",
-                        "properties": item["input_schema"],
-                        "required": list(item["input_schema"].keys())
-                    }
+                    "parameters": item["input_schema"],
                 }
             }
         )

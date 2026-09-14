@@ -75,7 +75,11 @@ class ModelOutputTest(unittest.TestCase):
                 "name": "get_celsius",
                 "description": "返回指定城市当前气温（摄氏度）。",
                 "input_schema": {
-                    "city": {"type": "string", "description": "城市名称"}
+                    "type": "object",
+                    "properties": {
+                        "city": {"type": "string", "description": "城市名称"},
+                    },
+                    "required": ["city"],
                 },
             }
         ]
@@ -86,13 +90,39 @@ class ModelOutputTest(unittest.TestCase):
         self.assertEqual(fn["parameters"]["required"], ["city"])
         self.assertEqual(fn["parameters"]["properties"]["city"]["type"], "string")
 
+    def test_to_openai_tools_keeps_optional_out_of_required(self):
+        schema = [
+            {
+                "name": "search",
+                "description": "搜索",
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "query": {"type": "string", "description": "搜索词"},
+                        "limit": {"type": "integer", "description": "最多返回几条"},
+                    },
+                    "required": ["query"],
+                },
+            }
+        ]
+        params = to_openai_tools(schema)[0]["function"]["parameters"]
+        self.assertEqual(params["required"], ["query"])
+        self.assertIn("limit", params["properties"])
+        self.assertNotIn("limit", params["required"])
+
     def test_build_chat_request(self):
         messages = [{"role": "user", "content": "北京气温"}]
         schema = [
             {
                 "name": "get_celsius",
                 "description": "气温",
-                "input_schema": {"city": {"type": "string", "description": "城市"}},
+                "input_schema": {
+                    "type": "object",
+                    "properties": {
+                        "city": {"type": "string", "description": "城市"},
+                    },
+                    "required": ["city"],
+                },
             }
         ]
         body = build_chat_request("kimi-k3", messages, schema)

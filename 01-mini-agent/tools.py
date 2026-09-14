@@ -12,11 +12,12 @@ class ToolResult:
 class Tool:
     name: str
     description: str
-    input_schema: dict[str, dict[str, str]]
+    input_schema: dict[str, Any]
     handler: Callable[..., Any]
 
     def execute(self, arguments: dict[str, Any]) -> Any:
-        missing = [key for key in self.input_schema if key not in arguments]
+        required = self.input_schema.get("required") or []
+        missing = [key for key in required if key not in arguments]
 
         if missing:
             raise ValueError(f"missing arguments: {missing}")
@@ -55,14 +56,26 @@ class ToolRegistry:
 get_celsius = Tool(
     name="get_celsius",
     description="返回指定城市当前气温（摄氏度）。",
-    input_schema={"city": {"type": "string", "description": "城市名称"}},
+    input_schema={
+        "type": "object",
+        "properties": {
+            "city": {"type": "string", "description": "城市名称"},
+        },
+        "required": ["city"],
+    },
     handler=lambda city: 26.0,
 )
 
 celsius_to_fahrenheit = Tool(
     name="celsius_to_fahrenheit",
     description="把摄氏度换成华氏度。",
-    input_schema={"c": {"type": "number", "description": "摄氏度"}},
+    input_schema={
+        "type": "object",
+        "properties": {
+            "c": {"type": "number", "description": "摄氏度"},
+        },
+        "required": ["c"],
+    },
     handler=lambda c: float(c) * 9 / 5 + 32,
 )
 
